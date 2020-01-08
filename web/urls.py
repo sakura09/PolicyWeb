@@ -14,21 +14,36 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include,re_path
+from django.urls import path,include
 from django.urls import include
 #加方法
-from policy.views import getAllPolicy,contrastPolicy,test,op
+from policy.views import getAllPolicy,contrastPolicy,test,op,test2,zxt,area,radar1,radar2,\
+    zxt_city,radar1_city,radar2_city,radar3_city
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path("^api/policy/",include("policy.urls")), # 政策
-    # #新路由User
-    # path('api/policy/op', op),
-    # path('api/policy/getAllPolicy',  getAllPolicy),
-    #
-    # path('api/policy/contrastPolicy', contrastPolicy),
-    # path('api/policy/test', test),
+
+    #新路由User
+    path('api/policy/op', op),
+    path('api/policy/getAllPolicy',  getAllPolicy),
+
+    path('api/policy/contrastPolicy', contrastPolicy),
+    path('api/policy/test', test),
+    path('api/policy/test2', test2),
+
+    path('api/policy/zxt', zxt),
+    #path('api/policy/area', area),
+    path('api/policy/radar1', radar1),
+    path('api/policy/radar2', radar2),
+
+    path('api/policy/zxt_city',zxt_city),
+    path('api/policy/radar1_city',radar1_city),
+    path('api/policy/radar2_city',radar2_city),
+    path('api/policy/radar3_city',radar3_city)
+
+
     #path('count/', inlcude('count.urls')),
     #路由manger
     #path('mgr/', include('mgr.urls')),
+
 ]
