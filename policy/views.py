@@ -723,12 +723,22 @@ def zxt_city(request):
 #市级数量雷达图
 #typeList, cityList, p
 def radar1_city(request):
-    typeList = request.GET.getlist('typeList', '')
-    typeList = json.loads(typeList[0])
-    p = request.GET.get('province', '')
-    cityList = request.GET.getlist('cityList', [])
-    cityList = json.loads(cityList[0])
+    typeList = request.GET.get('typeList')
+    print(len(typeList))
+    print(typeList)
+    #print(typeList[0])
+    typeList = json.loads(typeList)
+    print(len(typeList))
+    print(typeList[0])
+    print("p1")
+    p = request.GET.get('province')
+    print(p)
+    cityList = request.GET.get('cityList')
+    #print(cityList)
+    cityList = json.loads(cityList)
 
+    print(len(cityList))
+    print(cityList)
     L = total_policy.filter(province=p)
     dataList=[]
     List = []
@@ -793,11 +803,11 @@ def radar1_city(request):
         print(len(dataList))
         print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
-        return dataList
+        return ret
 
-    if len(cityList) == 2:
+    elif len(cityList) == 2:
         a2 = ['max', 'value1', 'scale1', 'value2', 'scale2']
-        print(cityList)
+        print("city2")
         city1 = cityList[0]
         city2 = cityList[1]
 
@@ -872,18 +882,17 @@ def radar1_city(request):
 
         print(len(dataList))
         print(dataList[0])
-        print(dataList[1])
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
         return ret
 
 #市级力度雷达图
 #typeList, cityList, p
 def radar2_city(request):
-    typeList = request.GET.getlist('typeList', '')
-    typeList = json.loads(typeList[0])
+    typeList = request.GET.get('typeList', [])
+    typeList = json.loads(typeList)
     p = request.GET.get('province', '')
-    cityList = request.GET.getlist('cityList', [])
-    cityList = json.loads(cityList[0])
+    cityList = request.GET.get('cityList', [])
+    cityList = json.loads(cityList)
 
     L = total_policy.filter(province=p)
     print(len(L))
@@ -928,7 +937,7 @@ def radar2_city(request):
             value1 = area(t, List1)
             scale1 = (value1/max_area) * 100
             data = [0 for _ in range(3)]
-            data[0] = max
+            data[0] = max_area
             data[1] = value1
             data[2] = scale1
             # data = {
@@ -937,12 +946,17 @@ def radar2_city(request):
             #     "scale1":scale1
             # }
             dataList.append(data)
+
+        print("1city")
+        print(len(dataList))
+        print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        return ret
 
 
     elif len(cityList) == 2:
         a2 = ['max', 'value1', 'scale1', 'value2', 'scale2']
-        print(cityList)
+        print("city2")
         city1 = cityList[0]
         city2 = cityList[1]
 
@@ -978,21 +992,21 @@ def radar2_city(request):
             x = x + 1
 
         for t in typeList:
-            print("in")
+            #print("in")
             max_area = area(t, List)
-            print("max")
-            print(max_area)
+            #print("max")
+            #print(max_area)
             value1 = area(t, List1)
-            print("v1")
-            print(value1)
+            #print("v1")
+            #print(value1)
             scale1 = (value1/max_area) * 100
             value2 = area(t, List2)
-            print("v2")
-            print(value2)
+            #print("v2")
+            #print(value2)
             scale2 = (value2/max_area) * 100
 
             data = [0 for _ in range(5)]
-            data[0] = max
+            data[0] = max_area
             data[1] = value1
             data[2] = scale1
             data[3] = value2
@@ -1005,20 +1019,21 @@ def radar2_city(request):
             #     "scale2":scale2
             # }
             dataList.append(data)
-
+        print("2city")
+        print(len(dataList))
+        print(dataList[0])
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
-    print(len(dataList))
-    print(dataList[0])
-    return dataList
+
+        return ret
 
 #市级得分雷达图图
 #typeList, cityList, p
 def radar3_city(request):
-    typeList = request.GET.getlist('typeList', '')
-    typeList = json.loads(typeList[0])
+    typeList = request.GET.get('typeList', [])
+    typeList = json.loads(typeList)
     p = request.GET.get('province', '')
-    cityList = request.GET.getlist('cityList', [])
-    cityList = json.loads(cityList[0])
+    cityList = request.GET.get('cityList', [])
+    cityList = json.loads(cityList)
 
     L = total_policy.filter(province=p)
     print(len(L))
@@ -1080,7 +1095,11 @@ def radar3_city(request):
             # }
             dataList.append(data)
 
+        print('1个City')
+        print(len(dataList))
+        print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+
 
     if len(cityList) == 2:
         a2 = ['max', 'value1', 'scale1', 'value2', 'scale2']
@@ -1153,9 +1172,11 @@ def radar3_city(request):
             dataList.append(data)
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
 
-    print(len(dataList))
-    print(dataList[0])
-    return dataList
+        print('两个City')
+        print(len(dataList))
+        print(dataList[0])
+
+    return ret
 
 
 
@@ -1541,4 +1562,7 @@ def test2(request):
     print(temp)
     print(b)
 
+
+#扩展性接口
+#def extendInterface():
 
