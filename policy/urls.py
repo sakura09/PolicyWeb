@@ -9,5 +9,5 @@ urlpatterns = [
     re_path('^contrastPolicy$', contrastPolicy),
     re_path('^test$', test),
     re_path('^op$', op),
-    re_path("^policyanalyze$",PolicyAnalyze.as_view())
+    re_path("^policyanalyze$",PolicyAnalyze.as_view()), #政策分析-经费资助
 ]
