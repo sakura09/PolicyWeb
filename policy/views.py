@@ -472,8 +472,8 @@ def radar2(typeList, provinceList):
 def zxt_city(request):
     t = request.GET.get('type', '')
     p = request.GET.get('province', '')
-    cityList = request.GET.getlist('cityList', [])
-    cityList = json.loads(cityList[0])
+    cityList = request.GET.get('cityList', [])
+    cityList = json.loads(cityList)
 
     a = [0, 0.5, 1, 5, 10, 15, 20, 25, 30, 40, 50, 60, 90, 95, 100, 300, 500, 1000, 10000]
     b1 = [0 for _ in range(18)]
@@ -1033,8 +1033,9 @@ def radar2_city(request):
 #市级得分雷达图图
 #typeList, cityList, p
 def radar3_city(request):
-    typeList = request.GET.getlist('typeList', [])
-    typeList = json.loads(typeList[0])
+    print("radar3")    
+    typeList = request.GET.get('typeList', [])
+    typeList = json.loads(typeList)
     p = request.GET.get('province', '')
     cityList = request.GET.get('cityList', [])
     cityList = json.loads(cityList)
@@ -1043,8 +1044,8 @@ def radar3_city(request):
     print(len(L))
     dataList = []
     indicator = []
-    value1 = [0 for _ in range(typeList)]
-    value2 = [0 for _ in range(typeList)]
+    #value1 = [0 for _ in range(typeList)]
+    #value2 = [0 for _ in range(typeList)]
 
     List = []
     List1 = []
@@ -1162,11 +1163,11 @@ def radar3_city(request):
             max = m1*m2
             v1 = len(newL1)
             v2 = area(t, List1)
-            V1 = v1*v2
+            value1 = v1*v2
             scale1 = (value1/max) * 100
             x1 = len(newL2)
             x2 = area(t, List2)
-            V2 = x1 * x2
+            value2 = x1 * x2
             scale2 = (value2/max) * 100
 
             # data = [0 for _ in range(5)]
