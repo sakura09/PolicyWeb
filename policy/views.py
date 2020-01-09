@@ -686,24 +686,7 @@ def zxt_city(request):
 
 
 
-        # data1 = {
-        #     "1万以下": result1[0],
-        #     "1-10": result1[1],
-        #     "10-50": result1[2],
-        #     "50-100": result1[3],
-        #     "100-1000": result1[4],
-        #     "1000-1亿": result1[5]
-        # }
-        # data2 = {
-        #     "1万以下": result2[0],
-        #     "1-10": result2[1],
-        #     "10-50": result2[2],
-        #     "50-100": result2[3],
-        #     "100-1000": result2[4],
-        #     "1000-1亿": result2[5]
-        # }
-        # dataList.append(data1)
-        # dataList.append(data2)
+       
         ret = JsonResponse({"a":A, "b1":b1, "b2":b2},json_dumps_params={'ensure_ascii': False})
 
     else :
