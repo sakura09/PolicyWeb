@@ -789,15 +789,16 @@ def radar1_city(request):
             value1 = len(newL1)
             scale1 = (value1/max)*100
 
-            data = [0 for _ in range(3)]
-            data[0] = max
-            data[1] = value1
-            data[2] = scale1
-            # data = {
-            #     "max":max,
-            #     "value1":value1,
-            #     "scale1":scale1
-            # }
+            # data = [0 for _ in range(3)]
+            # data[0] = max
+            # data[1] = value1
+            # data[2] = scale1
+            data = {
+                "max":max,
+                "value1":value1,
+                "scale1":scale1,
+                "name":t
+            }
             dataList.append(data)
 
         print(len(dataList))
@@ -865,19 +866,20 @@ def radar1_city(request):
             value2 = len(newL2)
             scale2 = (value2/max) * 100
 
-            data = [0 for _ in range(5)]
-            data[0] = max
-            data[1] = value1
-            data[2] = scale1
-            data[3] = value2
-            data[4] = scale2
-            # data = {
-            #     "max":max,
-            #     "value1":value1,
-            #     "scale1":scale1,
-            #     "value2":value2,
-            #     "scale2":scale2
-            # }
+            # data = [0 for _ in range(5)]
+            # data[0] = max
+            # data[1] = value1
+            # data[2] = scale1
+            # data[3] = value2
+            # data[4] = scale2
+            data = {
+                "max":max,
+                "value1":value1,
+                "scale1":scale1,
+                "value2":value2,
+                "scale2":scale2,
+                "name":t
+            }
             dataList.append(data)
 
         print(len(dataList))
@@ -936,15 +938,16 @@ def radar2_city(request):
             max_area = area(t, List)
             value1 = area(t, List1)
             scale1 = (value1/max_area) * 100
-            data = [0 for _ in range(3)]
-            data[0] = max_area
-            data[1] = value1
-            data[2] = scale1
-            # data = {
-            #     "max":max_area,
-            #     "value1":value1,
-            #     "scale1":scale1
-            # }
+            # data = [0 for _ in range(3)]
+            # data[0] = max_area
+            # data[1] = value1
+            # data[2] = scale1
+            data = {
+                "max":max_area,
+                "value1":value1,
+                "scale1":scale1,
+                "name":t
+            }
             dataList.append(data)
 
         print("1city")
@@ -1005,19 +1008,20 @@ def radar2_city(request):
             #print(value2)
             scale2 = (value2/max_area) * 100
 
-            data = [0 for _ in range(5)]
-            data[0] = max_area
-            data[1] = value1
-            data[2] = scale1
-            data[3] = value2
-            data[4] = scale2
-            # data = {
-            #     "max":max_area,
-            #     "value1":value1,
-            #     "scale1":scale1,
-            #     "value2":value2,
-            #     "scale2":scale2
-            # }
+            # data = [0 for _ in range(5)]
+            # data[0] = max_area
+            # data[1] = value1
+            # data[2] = scale1
+            # data[3] = value2
+            # data[4] = scale2
+            data = {
+                "max":max_area,
+                "value1":value1,
+                "scale1":scale1,
+                "value2":value2,
+                "scale2":scale2,
+                "name":t
+            }
             dataList.append(data)
         print("2city")
         print(len(dataList))
@@ -1029,8 +1033,8 @@ def radar2_city(request):
 #市级得分雷达图图
 #typeList, cityList, p
 def radar3_city(request):
-    typeList = request.GET.get('typeList', [])
-    typeList = json.loads(typeList)
+    typeList = request.GET.getlist('typeList', [])
+    typeList = json.loads(typeList[0])
     p = request.GET.get('province', '')
     cityList = request.GET.get('cityList', [])
     cityList = json.loads(cityList)
@@ -1038,6 +1042,10 @@ def radar3_city(request):
     L = total_policy.filter(province=p)
     print(len(L))
     dataList = []
+    indicator = []
+    value1 = [0 for _ in range(typeList)]
+    value2 = [0 for _ in range(typeList)]
+
     List = []
     List1 = []
     List2 = []
@@ -1084,15 +1092,17 @@ def radar3_city(request):
             value1 = v1*v2
             scale1 = (value1/max) * 100
 
-            data = [0 for _ in range(3)]
-            data[0] = max
-            data[1] = value1
-            data[2] = scale1
-            # data = {
-            #     "max":max,
-            #     "value1":value1,
-            #     "scale1":scale1
-            # }
+            # data = [0 for _ in range(3)]
+            # data[0]
+            # data[0] = max
+            # data[1] = value1
+            # data[2] = scale1
+            data = {
+                "max":max,
+                "value1":value1,
+                "scale1":scale1,
+                "name":t
+            }
             dataList.append(data)
 
         print('1个City')
@@ -1101,11 +1111,13 @@ def radar3_city(request):
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
 
 
+
     if len(cityList) == 2:
         a2 = ['max', 'value1', 'scale1', 'value2', 'scale2']
         print(cityList)
         city1 = cityList[0]
         city2 = cityList[1]
+
 
         for line in L:
             str1 = line.addr
@@ -1134,6 +1146,7 @@ def radar3_city(request):
             for m in l:
                 List.append(m)
 
+        i=0
         for t in typeList:
             for line in List:
                 if t == line.type:
@@ -1149,26 +1162,27 @@ def radar3_city(request):
             max = m1*m2
             v1 = len(newL1)
             v2 = area(t, List1)
-            value1 = v1*v2
+            V1 = v1*v2
             scale1 = (value1/max) * 100
             x1 = len(newL2)
             x2 = area(t, List2)
-            value2 = x1 * x2
+            V2 = x1 * x2
             scale2 = (value2/max) * 100
 
-            data = [0 for _ in range(5)]
-            data[0] = max
-            data[1] = value1
-            data[2] = scale1
-            data[3] = value2
-            data[4] = scale2
-            # data = {
-            #     "max":max,
-            #     "value1":value1,
-            #     "scale1":scale1,
-            #     "value2":value2,
-            #     "scale2":scale2
-            # }
+            # data = [0 for _ in range(5)]
+            # data[0] = max
+            # data[1] = value1
+            # data[2] = scale1
+            # data[3] = value2
+            # data[4] = scale2
+            data = {
+                "max": max,
+                "value1": value1,
+                "scale1": scale1,
+                "value2": value2,
+                "scale2": scale2,
+                "name": t
+            }
             dataList.append(data)
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
 
