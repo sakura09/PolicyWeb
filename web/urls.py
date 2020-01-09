@@ -36,7 +36,7 @@ urlpatterns = [
     path('api/policy/radar1', radar1),
     path('api/policy/radar2', radar2),
 
-    path('api/policy/zxt_city',zxt_city),
+    path('api/policy/zet_city',zxt_city),
     path('api/policy/radar1_city',radar1_city),
     path('api/policy/radar2_city',radar2_city),
     path('api/policy/radar3_city',radar3_city)
