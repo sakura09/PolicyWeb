@@ -18,6 +18,8 @@ import json
 #提前把数据加载到内存，提高查询效率
 total_policy = strategy.objects.all()
 total_method_policy = MethodAndType.objects.all()
+L_zj = total_policy.filter(province="浙江省")
+L_zj2 = total_method_policy.filter(province="浙江省")
 
 def op(request):
     data = 'hello world'
@@ -476,6 +478,8 @@ def zxt_city(request):
     cityList = json.loads(cityList)
 
     a = [0, 0.5, 1, 5, 10, 15, 20, 25, 30, 40, 50, 60, 90, 95, 100, 300, 500, 1000, 10000]
+    A = ['0-0.5','0.5-1','1-5','5-10','10-15','15-20','20-25','25-30','30-40','40-50','50-60','60-90','90-95','95-100'
+         , '100-300','300-500','500-1000','1000-一亿']
     b1 = [0 for _ in range(18)]
     b2 = [0 for _ in range(18)]
 
@@ -581,6 +585,8 @@ def zxt_city(request):
             for i in temp1:
                 p = re.compile(r'\d+\.?\d')
                 res2 = re.findall(p, i)
+                if len(res2) == 0:
+                    continue
                 res2 = float(res2[0])
                 res2 = res2/10000
                 if res2>a[0] and res2<a[1]:
@@ -697,7 +703,7 @@ def zxt_city(request):
         # }
         # dataList.append(data1)
         # dataList.append(data2)
-        ret = JsonResponse({"a":a, "b1":b1, "b2":b2},json_dumps_params={'ensure_ascii': False})
+        ret = JsonResponse({"a":A, "b1":b1, "b2":b2},json_dumps_params={'ensure_ascii': False})
 
     else :
         # data1 = {
@@ -709,10 +715,10 @@ def zxt_city(request):
         #     "1000-1亿": result1[5]
         # }
         # dataList.append(data1)
-        ret = JsonResponse({"a":a, "b1":b1},json_dumps_params={'ensure_ascii': False})
+        ret = JsonResponse({"a":A, "b1":b1},json_dumps_params={'ensure_ascii': False})
 
     print("a")
-    print(a)
+    print(A)
     print("b1")
     print(b1)
     print("b2")
@@ -1033,14 +1039,14 @@ def radar2_city(request):
 #市级得分雷达图图
 #typeList, cityList, p
 def radar3_city(request):
-    print("radar3")    
     typeList = request.GET.get('typeList', [])
     typeList = json.loads(typeList)
     p = request.GET.get('province', '')
     cityList = request.GET.get('cityList', [])
     cityList = json.loads(cityList)
 
-    L = total_policy.filter(province=p)
+    #L = total_policy.filter(province=p)
+    L = L_zj
     print(len(L))
     dataList = []
     indicator = []
@@ -1132,18 +1138,21 @@ def radar3_city(request):
             if city1 == results[0]:
                 stagId = line.id
                 l1 = total_method_policy.filter(stag_id=stagId)
+                #List1 = list(l1)
                 for l in l1:
                     List1.append(l)
 
             elif city2 == results[0]:
                 stagId = line.id
                 l2 = total_method_policy.filter(stag_id=stagId)
+                # List2 = list(l2)
                 for l in l2:
                     List2.append(l)
 
-
+            ##这里慢
             sId = line.id
-            l = total_method_policy.filter(stag_id=sId)
+            l = L_zj2.filter(stag_id=sId)
+           # List = list(l)
             for m in l:
                 List.append(m)
 
@@ -1186,7 +1195,8 @@ def radar3_city(request):
             }
             dataList.append(data)
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
-
+        str = "21"
+        ret = JsonResponse({"str":str})
         print('两个City')
         print(len(dataList))
         print(dataList[0])
