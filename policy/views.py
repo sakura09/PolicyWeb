@@ -628,6 +628,7 @@ def zxt_city(request):
                 if res2>=a[18]:
                     b1[17] = b1[17]+1
 
+
     if len(List2) > 0:
         print("list2.len > 0")
         for line in List2:
