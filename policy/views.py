@@ -567,6 +567,14 @@ def zxt_city(request):
         print("list2.len")
         print(len(List2))
 
+    #全选
+    else:
+        l1 = total_method_policy.filter(province=p)
+        List1 = l1.filter(type=t)
+        List2 = []
+
+
+
     p1 = re.compile(r'\d+元')
     p2 = re.compile(r'\d+\.?\d万元')
     p3 = re.compile(r'\d+\.?\d万')
@@ -686,7 +694,7 @@ def zxt_city(request):
 
 
 
-       
+
         ret = JsonResponse({"a":A, "b1":b1, "b2":b2},json_dumps_params={'ensure_ascii': False})
 
     else :
@@ -877,6 +885,28 @@ def radar1_city(request):
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
         return ret
 
+    else :
+        a1 = ['max', 'name']
+        L = total_method_policy.filter(province = p)
+        for t in typeList:
+            for line in L:
+                if t == line.type:
+                    newL.append(line)
+            max = len(newL)
+            data = {
+                "max": max,
+                "name": t
+            }
+            dataList.append(data)
+
+        print(len(dataList))
+        print(dataList[0])
+        ret = JsonResponse({"a1": a1, "dataList": dataList}, json_dumps_params={'ensure_ascii': False})
+        return ret
+
+
+
+
 #市级力度雷达图
 #typeList, cityList, p
 def radar2_city(request):
@@ -1020,6 +1050,23 @@ def radar2_city(request):
 
         return ret
 
+    else:
+        a1 = ['max', 'name']
+        L = total_method_policy.filter(province=p)
+        for t in typeList:
+            max_area = area(t, L)
+            data = {
+                "max": max_area,
+                "name": t
+            }
+            dataList.append(data)
+
+        print(len(dataList))
+        print(dataList[0])
+        ret = JsonResponse({"a1": a1, "dataList": dataList}, json_dumps_params={'ensure_ascii': False})
+        return ret
+
+
 #市级得分雷达图图
 #typeList, cityList, p
 def radar3_city(request):
@@ -1100,10 +1147,11 @@ def radar3_city(request):
         print(len(dataList))
         print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        return ret
 
 
 
-    if len(cityList) == 2:
+    elif len(cityList) == 2:
         a2 = ['max', 'value1', 'scale1', 'value2', 'scale2']
         print(cityList)
         city1 = cityList[0]
@@ -1129,63 +1177,81 @@ def radar3_city(request):
             elif city2 == results[0]:
                 stagId = line.id
                 l2 = total_method_policy.filter(stag_id=stagId)
-                # List2 = list(l2)
+                #List2 = list(l2)
                 for l in l2:
                     List2.append(l)
 
-            ##这里慢
+            ##
             sId = line.id
+            #L = MethodAndType.objects.raw('selec')
             l = L_zj2.filter(stag_id=sId)
-           # List = list(l)
             for m in l:
                 List.append(m)
 
-        i=0
-        for t in typeList:
-            for line in List:
-                if t == line.type:
-                    newL.append(line)
-            for line in List1:
-                if t == line.type:
-                    newL1.append(line)
-            for line in List2:
-                if t == line.type:
-                    newL2.append(line)
-            m1 = len(newL)
-            m2 = area(t, List)
-            max = m1*m2
-            v1 = len(newL1)
-            v2 = area(t, List1)
-            value1 = v1*v2
-            scale1 = (value1/max) * 100
-            x1 = len(newL2)
-            x2 = area(t, List2)
-            value2 = x1 * x2
-            scale2 = (value2/max) * 100
 
-            # data = [0 for _ in range(5)]
-            # data[0] = max
-            # data[1] = value1
-            # data[2] = scale1
-            # data[3] = value2
-            # data[4] = scale2
-            data = {
-                "max": max,
-                "value1": value1,
-                "scale1": scale1,
-                "value2": value2,
-                "scale2": scale2,
-                "name": t
-            }
-            dataList.append(data)
-        ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
-        str = "21"
+        # i=0
+        # for t in typeList:
+        #     for line in List:
+        #         if t == line.type:
+        #             newL.append(line)
+        #     for line in List1:
+        #         if t == line.type:
+        #             newL1.append(line)
+        #     for line in List2:
+        #         if t == line.type:
+        #             newL2.append(line)
+        #     m1 = len(newL)
+        #     m2 = area(t, List)
+        #     max = m1*m2
+        #     v1 = len(newL1)
+        #     v2 = area(t, List1)
+        #     value1 = v1*v2
+        #     scale1 = (value1/max) * 100
+        #     x1 = len(newL2)
+        #     x2 = area(t, List2)
+        #     value2 = x1 * x2
+        #     scale2 = (value2/max) * 100
+        #
+        #
+        #     data = {
+        #         "max": max,
+        #         "value1": value1,
+        #         "scale1": scale1,
+        #         "value2": value2,
+        #         "scale2": scale2,
+        #         "name": t
+        #     }
+        #     dataList.append(data)
+        # ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        # print('两个City')
+        str = "测试速度"
         ret = JsonResponse({"str":str})
-        print('两个City')
         print(len(dataList))
         print(dataList[0])
 
-    return ret
+        return ret
+
+    else:
+        print("全省")
+        a1 = ['max', 'name']
+        L = total_method_policy.filter(province = p)
+        for t in typeList:
+            for line in L:
+                if t == line.type:
+                    newL.append(line)
+            m1 = len(newL)
+            m2 = area(t, L)
+            max = m1 * m2
+            data = {
+                "max":max,
+                "name":t
+            }
+            dataList.append(data)
+        ret = JsonResponse({"a1": a1, "dataList": dataList}, json_dumps_params={'ensure_ascii': False})
+        return ret
+
+
+
 
 
 
@@ -1195,6 +1261,12 @@ def contrastPolicy(request):
         request.params = request.GET
 
     # 筛选条件, 传递普通数组
+    #新增城市数组 new
+    cityList = request.GET.getlist('cityList',[])
+    cityList = json.loads(cityList[0])
+    # print(cityList)
+
+
     #省份数组
     provinceList = request.GET.getlist('province', [])
     #provinceList = request.GET.get('province', '')
@@ -1240,7 +1312,7 @@ def contrastPolicy(request):
     print(policyTypeList)
     print(serverTypeList)
     print(num)
-    print(index)
+    # print(index)
 
 
 
@@ -1273,10 +1345,130 @@ def contrastPolicy(request):
                 #    l1 = l1.filter(intent=i)
                 q1.children.append(('type', i))
 
+
+
         print('q1.len')
         print(len(q1))
+        print(q1)
         l1 = l1.filter(q1)
 
+        # new
+        List=[]
+        List1=[]
+        List2=[]
+
+        if len(cityList)>0 and len(cityList)<=2:
+            print("in1")
+            city1 = cityList[0]
+            print("city1")
+            print(city1)
+            for line in L_zj:
+                str1 = line.addr
+                str = str1.encode()
+                temp = str.decode('utf-8')
+                pattern = "[\u4e00-\u9fa5]+市"  # 中文正则表达式
+                p = re.compile(pattern)  # 生成正则对象
+                results = p.findall(temp)
+                if len(results) == 0:
+                    continue
+                if city1 == results[0]:
+                    stagId = line.id
+                    print(stagId)
+                    l1 = total_method_policy.filter(stag_id=stagId)
+                    #l1 = l1.distance()
+                    for l in l1:
+                        List1.append(l)
+
+                elif len(cityList) == 2:
+                    city2 = cityList[1]
+                    # print("city2")
+                    # print(city2)
+                    if city2 == results[0]:
+                        stagId = line.id
+                        l2 = total_method_policy.filter(stag_id=stagId)
+                        # l1 = l1.distance()
+                        for l in l2:
+                            List2.append(l)
+            List = List1+List2
+            print(len(List1))
+            print(len(List2))
+            print(len(List))
+
+
+            newL = []
+            dataList = []
+            for t in serverTypeList:
+                for line in List:
+                    if line.type == t:
+                        newL.append(line)
+
+            total_num = len([_ for _ in newL])
+            for line in newL[num:num2]:
+                s = strategy.objects.get(id=line.stag_id)
+                title = s.title
+                province = s.province
+                addr = s.addr
+                content = s.content
+                url = s.url
+                if url == 'null':
+                    url = ''
+                method = line.method
+                type = line.type
+                data = {
+                    '政策标题': title,
+                    '适用区域': addr,
+                    '人才待遇': method,
+                    'url': url,
+                    '政策条款及服务内容': content,
+                    '待遇类型': type
+                }
+                dataList.append(data)
+            print(len(dataList))
+            ret = JsonResponse({'total_num': total_num, 'retList': dataList}, json_dumps_params={'ensure_ascii': False})
+            return ret
+        # elif len(cityList)>2:
+        #     print("in3")
+        #     for line in L_zj:
+        #         str1 = line.addr
+        #         str = str1.encode()
+        #         temp = str.decode('utf-8')
+        #         pattern = "[\u4e00-\u9fa5]+市"  # 中文正则表达式
+        #         p = re.compile(pattern)  # 生成正则对象
+        #         results = p.findall(temp)
+        #         if len(results) == 0:
+        #             continue
+        #         List.append(line)
+        #
+        #     newL = []
+        #     dataList = []
+        #     for t in serverTypeList:
+        #         for line in List:
+        #             if line.type == t:
+        #                 newL.append(line)
+        #     total_num = len([_ for _ in newL])
+        #     for line in newL[num:num2]:
+        #         s = strategy.objects.get(id=line.stag_id)
+        #         title = s.title
+        #         province = s.province
+        #         addr = s.addr
+        #         content = s.content
+        #         url = s.url
+        #         if url == 'null':
+        #             url = ''
+        #         method = line.method
+        #         type = line.type
+        #         data = {
+        #             '政策标题': title,
+        #             '适用区域': addr,
+        #             '人才待遇': method,
+        #             'url': url,
+        #             '政策条款及服务内容': content,
+        #             '待遇类型': type
+        #         }
+        #         dataList.append(data)
+        #     print(len(dataList))
+        #     ret = JsonResponse({'total_num': total_num, 'retList': dataList}, json_dumps_params={'ensure_ascii': False})
+        #     return ret
 
         total_num = len([_ for _ in l1])
         print('total_num')
@@ -1289,6 +1481,7 @@ def contrastPolicy(request):
             s = strategy.objects.get(id = line.stag_id)
             title = s.title
             province = s.province
+            addr = s.addr
             content = s.content
             url = s.url
             if url == 'null':
@@ -1297,7 +1490,7 @@ def contrastPolicy(request):
             type = line.type
             data = {
                 '政策标题': title,
-                '适用区域': province,
+                '适用区域': addr,
                 '人才待遇': method,
                 'url': url,
                 '政策条款及服务内容': content,
@@ -1359,6 +1552,7 @@ def contrastPolicy(request):
             s = strategy.objects.get(id = line.stag_id)
             title = s.title
             province = s.province
+            addr = s.addr
             content = s.content
             url = s.url
             if url == 'null':
@@ -1367,7 +1561,7 @@ def contrastPolicy(request):
             type1 = line.type
             data1 = {
                 '政策标题': title,
-                '适用区域': province,
+                '适用区域': addr,
                 '人才待遇1': method1,
                 'url': url,
                 '政策条款及服务内容': content,
@@ -1380,6 +1574,7 @@ def contrastPolicy(request):
             s = strategy.objects.get(id = line.stag_id)
             title = s.title
             province = s.province
+            addr = s.addr
             content = s.content
             url = s.url
             if url == 'null':
@@ -1388,7 +1583,7 @@ def contrastPolicy(request):
             type2 = line.type
             data2 = {
                 '政策标题': title,
-                '适用区域': province,
+                '适用区域': addr,
                 '人才待遇': method2,
                 'url': url,
                 '政策条款及服务内容': content,
@@ -1570,6 +1765,22 @@ def test2(request):
 
     print(temp)
     print(b)
+
+    # print("test sql")
+    # #L = MethodAndType.objects.raw('select id')
+    # idList = []
+    # for line in strategy.objects.raw('select * form strategy where province = '浙江省''):
+    #     stagId = line.id
+    #     idList.append(stagId)
+    # print("idList.len")
+    # print(len(idList))
+    #
+    # List = []
+    # for sid in idList:
+    #     L = MethodAndType.objects.raw('SELECT * FROM MethodAndType where id = sID')
+    #     List.append(L)
+    # print("List.len")
+    # print(len(List))
 
 
 #扩展性接口
