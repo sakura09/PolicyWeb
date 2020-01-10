@@ -787,13 +787,15 @@ def radar1_city(request):
             value1 = len(newL1)
             scale1 = (value1/max)*100
 
+
+            max1 = 100
             # data = [0 for _ in range(3)]
             # data[0] = max
             # data[1] = value1
             # data[2] = scale1
             data = {
-                "max":max,
-                "value1":value1,
+                "max":max1,
+                "value1":scale1,
                 "scale1":scale1,
                 "name":t
             }
@@ -838,20 +840,27 @@ def radar1_city(request):
 
                 j = j + 1
 
-            sId = line.id
-            l = total_method_policy.filter(stag_id=sId)
-            for m in l:
-                List.append(m)
+            # sId = line.id
+            # l = total_method_policy.filter(stag_id=sId)
+            # for m in l:
+            #     List.append(m)
 
             x = x + 1
 
-        for t in  typeList:
+        for t in typeList:
 
-            for line in List:
-                if t == line.type:
-                    newL.append(line)
-            max = len(newL)
-
+            # for line in List:
+            #     if t == line.type:
+            #         newL.append(line)
+            # print(len(List1))
+            # print(len(List2))
+            # max = len(List1)+len(List2)
+            # print("max")
+            # print(max)
+            max = len(List1)+len(List2)
+            print(max)
+            print(len(List1))
+            print(len(List2))
             for line in List1:
                 if t == line.type:
                     newL1.append(line)
@@ -864,6 +873,9 @@ def radar1_city(request):
             value2 = len(newL2)
             scale2 = (value2/max) * 100
 
+
+
+            max1 = 100
             # data = [0 for _ in range(5)]
             # data[0] = max
             # data[1] = value1
@@ -871,10 +883,10 @@ def radar1_city(request):
             # data[3] = value2
             # data[4] = scale2
             data = {
-                "max":max,
-                "value1":value1,
+                "max":max1,
+                "value1":scale1,
                 "scale1":scale1,
-                "value2":value2,
+                "value2":scale2,
                 "scale2":scale2,
                 "name":t
             }
@@ -893,8 +905,9 @@ def radar1_city(request):
                 if t == line.type:
                     newL.append(line)
             max = len(newL)
+            max1 = 100
             data = {
-                "max": max,
+                "max": max1,
                 "name": t
             }
             dataList.append(data)
@@ -962,9 +975,10 @@ def radar2_city(request):
             # data[0] = max_area
             # data[1] = value1
             # data[2] = scale1
+            max1 = 100
             data = {
-                "max":max_area,
-                "value1":value1,
+                "max":max1,
+                "value1":scale1,
                 "scale1":scale1,
                 "name":t
             }
@@ -1008,15 +1022,17 @@ def radar2_city(request):
                     List2.append(l)
                 j = j + 1
 
-            sId = line.id
-            l = total_method_policy.filter(stag_id=sId)
-            for m in l:
-                List.append(m)
+            # sId = line.id
+            # l = total_method_policy.filter(stag_id=sId)
+            # for m in l:
+            #     List.append(m)
             x = x + 1
 
         for t in typeList:
             #print("in")
-            max_area = area(t, List)
+            max_area1 = area(t, List1)
+            max_area2 = area(t, List2)
+            max_area = max_area1+max_area2
             #print("max")
             #print(max_area)
             value1 = area(t, List1)
@@ -1028,6 +1044,7 @@ def radar2_city(request):
             #print(value2)
             scale2 = (value2/max_area) * 100
 
+            max1 = 100
             # data = [0 for _ in range(5)]
             # data[0] = max_area
             # data[1] = value1
@@ -1035,17 +1052,17 @@ def radar2_city(request):
             # data[3] = value2
             # data[4] = scale2
             data = {
-                "max":max_area,
-                "value1":value1,
+                "max":100,
+                "value1":scale1,
                 "scale1":scale1,
-                "value2":value2,
+                "value2":scale2,
                 "scale2":scale2,
                 "name":t
             }
             dataList.append(data)
         print("2city")
         print(len(dataList))
-        print(dataList[0])
+        #print(dataList[0])
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
 
         return ret
@@ -1055,14 +1072,15 @@ def radar2_city(request):
         L = total_method_policy.filter(province=p)
         for t in typeList:
             max_area = area(t, L)
+            max1 = 100
             data = {
-                "max": max_area,
+                "max": max1,
                 "name": t
             }
             dataList.append(data)
 
         print(len(dataList))
-        print(dataList[0])
+        #print(dataList[0])
         ret = JsonResponse({"a1": a1, "dataList": dataList}, json_dumps_params={'ensure_ascii': False})
         return ret
 
@@ -1130,14 +1148,15 @@ def radar3_city(request):
             value1 = v1*v2
             scale1 = (value1/max) * 100
 
+            max1 = 100
             # data = [0 for _ in range(3)]
             # data[0]
             # data[0] = max
             # data[1] = value1
             # data[2] = scale1
             data = {
-                "max":max,
-                "value1":value1,
+                "max":max1,
+                "value1":scale1,
                 "scale1":scale1,
                 "name":t
             }
@@ -1145,7 +1164,7 @@ def radar3_city(request):
 
         print('1个City')
         print(len(dataList))
-        print(dataList[0])
+        #print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
         return ret
 
@@ -1182,25 +1201,26 @@ def radar3_city(request):
                     List2.append(l)
 
             ##
-            sId = line.id
-            #L = MethodAndType.objects.raw('selec')
-            l = L_zj2.filter(stag_id=sId)
-            for m in l:
-                List.append(m)
+            # sId = line.id
+            # #L = MethodAndType.objects.raw('selec')
+            # l = L_zj2.filter(stag_id=sId)
+            # for m in l:
+            #     List.append(m)
 
 
         i=0
         for t in typeList:
-            for line in List:
-                if t == line.type:
-                    newL.append(line)
+            # for line in List:
+            #     if t == line.type:
+            #         newL.append(line)
             for line in List1:
                 if t == line.type:
                     newL1.append(line)
             for line in List2:
                 if t == line.type:
                     newL2.append(line)
-            m1 = len(newL)
+            m1 = len(List1)+len(List2)
+            List = List1+List2
             m2 = area(t, List)
             max = m1*m2
             v1 = len(newL1)
@@ -1212,12 +1232,12 @@ def radar3_city(request):
             value2 = x1 * x2
             scale2 = (value2/max) * 100
 
-
+            max1 = 100
             data = {
-                "max": max,
-                "value1": value1,
+                "max": max1,
+                "value1": scale1,
                 "scale1": scale1,
-                "value2": value2,
+                "value2": scale2,
                 "scale2": scale2,
                 "name": t
             }
@@ -1225,7 +1245,7 @@ def radar3_city(request):
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
         print('两个City')
         print(len(dataList))
-        print(dataList[0])
+        #print(dataList[0])
 
         return ret
 
@@ -1240,8 +1260,9 @@ def radar3_city(request):
             m1 = len(newL)
             m2 = area(t, L)
             max = m1 * m2
+            max1 = 100
             data = {
-                "max":max,
+                "max":max1,
                 "name":t
             }
             dataList.append(data)
