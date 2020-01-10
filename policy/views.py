@@ -1189,43 +1189,41 @@ def radar3_city(request):
                 List.append(m)
 
 
-        # i=0
-        # for t in typeList:
-        #     for line in List:
-        #         if t == line.type:
-        #             newL.append(line)
-        #     for line in List1:
-        #         if t == line.type:
-        #             newL1.append(line)
-        #     for line in List2:
-        #         if t == line.type:
-        #             newL2.append(line)
-        #     m1 = len(newL)
-        #     m2 = area(t, List)
-        #     max = m1*m2
-        #     v1 = len(newL1)
-        #     v2 = area(t, List1)
-        #     value1 = v1*v2
-        #     scale1 = (value1/max) * 100
-        #     x1 = len(newL2)
-        #     x2 = area(t, List2)
-        #     value2 = x1 * x2
-        #     scale2 = (value2/max) * 100
-        #
-        #
-        #     data = {
-        #         "max": max,
-        #         "value1": value1,
-        #         "scale1": scale1,
-        #         "value2": value2,
-        #         "scale2": scale2,
-        #         "name": t
-        #     }
-        #     dataList.append(data)
-        # ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
-        # print('两个City')
-        str = "测试速度"
-        ret = JsonResponse({"str":str})
+        i=0
+        for t in typeList:
+            for line in List:
+                if t == line.type:
+                    newL.append(line)
+            for line in List1:
+                if t == line.type:
+                    newL1.append(line)
+            for line in List2:
+                if t == line.type:
+                    newL2.append(line)
+            m1 = len(newL)
+            m2 = area(t, List)
+            max = m1*m2
+            v1 = len(newL1)
+            v2 = area(t, List1)
+            value1 = v1*v2
+            scale1 = (value1/max) * 100
+            x1 = len(newL2)
+            x2 = area(t, List2)
+            value2 = x1 * x2
+            scale2 = (value2/max) * 100
+
+
+            data = {
+                "max": max,
+                "value1": value1,
+                "scale1": scale1,
+                "value2": value2,
+                "scale2": scale2,
+                "name": t
+            }
+            dataList.append(data)
+        ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        print('两个City')
         print(len(dataList))
         print(dataList[0])
 
