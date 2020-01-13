@@ -924,9 +924,11 @@ def radar1_city(request):
             # data[4] = scale2
             data = {
                 "max":max1,
-                "value1":scale1,
+                # "value1":scale1,
+                "value1":value1,
                 "scale1":value1,
-                "value2":scale2,
+                # "value2":scale2,
+                "value2": value2,
                 "scale2":value2,
                 "name":t
             }
