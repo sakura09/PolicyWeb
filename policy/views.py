@@ -39,7 +39,7 @@ class LruCatch():
         if not self.lru_cache.get(fnname, None):
             self.lru_cache[fnname] = OrderedDict()
         length = len(self.lru_cache[fnname].keys())
-        if length >= 100:
+        if length >= 3000:
             key = None
             for i in self.lru_cache[fnname]:
                 key = i
