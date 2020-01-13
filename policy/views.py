@@ -926,10 +926,11 @@ def radar1_city(request):
                 "max":max1,
                 # "value1":scale1,
                 "value1":value1,
-                "scale1":value1,
+                "scale1":scale1,
                 # "value2":scale2,
                 "value2": value2,
-                "scale2":value2,
+                # "scale2":value2,
+                "scale2":scale2,
                 "name":t
             }
             dataList.append(data)
