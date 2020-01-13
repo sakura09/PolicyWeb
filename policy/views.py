@@ -51,7 +51,11 @@ class LruCatch():
     def catch_get(self,fnname:str,stt:str):
         if not self.lru_cache.get(fnname,None):
             self.lru_cache[fnname] = OrderedDict()
-        return self.lru_cache[fnname].get(stt,None)
+        value = self.lru_cache[fnname].get(stt,None)
+        if value:
+            print("缓存中获取数据---")
+            return value
+        return None
 
 def op(request):
     data = 'hello world'
