@@ -1378,6 +1378,12 @@ def contrastPolicy(request):
     print(serverTypeList)
     print(num)
     # print(index)
+    stt = "{}-{}-{}-{}".format(provinceList,policyTypeList,serverTypeList,num)
+    catch = LruCatch()
+    fnname = "contrastPolicy"
+    value = catch.catch_get(fnname,stt)
+    if value:
+        return value[1]
 
 
 
@@ -1490,6 +1496,8 @@ def contrastPolicy(request):
                 dataList.append(data)
             print(len(dataList))
             ret = JsonResponse({'total_num': total_num, 'retList': dataList}, json_dumps_params={'ensure_ascii': False})
+
+            catch.catch_set(fnname,stt,ret)
             return ret
         # elif len(cityList)>2:
         #     print("in3")
@@ -1571,6 +1579,7 @@ def contrastPolicy(request):
         ret["Access-Control-Allow-Credentials"] = "true"
         ret["Access-Control-Allow-Methods"] = "GET,POST"
         ret["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+        catch.catch_set(fnname,stt,ret)
         return ret
 
     #两个省份
@@ -1669,6 +1678,7 @@ def contrastPolicy(request):
         result["Access-Control-Allow-Methods"] = "GET,POST"
         result["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
         # ret = 0 对比成功
+        catch.catch_set(fnname,stt,result)
         return result
 
 
