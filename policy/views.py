@@ -777,6 +777,12 @@ def radar1_city(request):
 
     print(len(cityList))
     print(cityList)
+    catch = LruCatch()
+    fnname = "radar1_city"
+    stt = "{}-{}-{}".format(typeList,p,cityList)
+    value = catch.catch_get(fnname,stt)
+    if value:
+        return value[1]
     L = total_policy.filter(province=p)
     dataList=[]
     List = []
@@ -844,6 +850,7 @@ def radar1_city(request):
         print(len(dataList))
         print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        catch.catch_set(fnname, stt, ret)
         return ret
 
     elif len(cityList) == 2:
@@ -938,6 +945,7 @@ def radar1_city(request):
         print(len(dataList))
         print(dataList[0])
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        catch.catch_set(fnname, stt, ret)
         return ret
 
     else :
@@ -960,6 +968,7 @@ def radar1_city(request):
         print(len(dataList))
         print(dataList[0])
         ret = JsonResponse({"a1": a1, "dataList": dataList}, json_dumps_params={'ensure_ascii': False})
+        catch.catch_set(fnname, stt, ret)
         return ret
 
 
@@ -973,6 +982,13 @@ def radar2_city(request):
     p = request.GET.get('province', '')
     cityList = request.GET.get('cityList', [])
     cityList = json.loads(cityList)
+
+    catch = LruCatch()
+    fnname = "radar2_city"
+    stt = "{}-{}-{}".format(typeList,p,cityList)
+    value = catch.catch_get(fnname,stt)
+    if value:
+        return value[1]
 
     L = total_policy.filter(province=p)
     print(len(L))
@@ -1033,6 +1049,7 @@ def radar2_city(request):
         print(len(dataList))
         print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        catch.catch_set(fnname,stt,ret)
         return ret
 
 
@@ -1109,7 +1126,7 @@ def radar2_city(request):
         print(len(dataList))
         #print(dataList[0])
         ret = JsonResponse({"a2":a2, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
-
+        catch.catch_set(fnname, stt, ret)
         return ret
 
     else:
@@ -1129,6 +1146,7 @@ def radar2_city(request):
         print(len(dataList))
         #print(dataList[0])
         ret = JsonResponse({"a1": a1, "dataList": dataList}, json_dumps_params={'ensure_ascii': False})
+        catch.catch_set(fnname, stt, ret)
         return ret
 
 
@@ -1140,6 +1158,12 @@ def radar3_city(request):
     p = request.GET.get('province', '')
     cityList = request.GET.get('cityList', [])
     cityList = json.loads(cityList)
+    catch = LruCatch()
+    stt = "{}-{}".format(typeList,cityList)
+    fnname = "radar3_city"
+    value = catch.catch_get(fnname,stt)
+    if value:
+        return value[1]
 
     #L = total_policy.filter(province=p)
     L = L_zj
@@ -1213,6 +1237,7 @@ def radar3_city(request):
         print(len(dataList))
         #print(dataList[0])
         ret = JsonResponse({"a1":a1, "dataList":dataList}, json_dumps_params={'ensure_ascii': False})
+        catch.catch_set(fnname,stt,ret)
         return ret
 
 
@@ -1293,7 +1318,7 @@ def radar3_city(request):
         print('两个City')
         print(len(dataList))
         #print(dataList[0])
-
+        catch.catch_set(fnname, stt, ret)
         return ret
 
     else:
@@ -1316,6 +1341,7 @@ def radar3_city(request):
             }
             dataList.append(data)
         ret = JsonResponse({"a1": a1, "dataList": dataList}, json_dumps_params={'ensure_ascii': False})
+        catch.catch_set(fnname, stt, ret)
         return ret
 
 
