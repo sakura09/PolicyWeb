@@ -509,7 +509,8 @@ def zxt_city(request):
     cityList = json.loads(cityList)
 
     catch = LruCatch()
-    stt = "".join(cityList) + t + p
+    # stt = "".join(cityList) + t + p
+    stt = "{}-{}-{}".format("".join(cityList),t,p)
     fnname = "zxt_city"
     value = catch.catch_get(fnname,stt)
     if value:
