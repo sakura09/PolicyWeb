@@ -835,7 +835,7 @@ def radar1_city(request):
             # data[2] = scale1
             data = {
                 "max":max1,
-                "value1":scale1,
+                "value1":value1,
                 "scale1":scale1,
                 "name":t
             }
@@ -925,9 +925,9 @@ def radar1_city(request):
             data = {
                 "max":max1,
                 "value1":scale1,
-                "scale1":scale1,
+                "scale1":value1,
                 "value2":scale2,
-                "scale2":scale2,
+                "scale2":value2,
                 "name":t
             }
             dataList.append(data)
@@ -948,6 +948,8 @@ def radar1_city(request):
             max1 = 100
             data = {
                 "max": max1,
+                "value":max,
+                "scale":100,
                 "name": t
             }
             dataList.append(data)
@@ -1018,7 +1020,7 @@ def radar2_city(request):
             max1 = 100
             data = {
                 "max":max1,
-                "value1":scale1,
+                "value1":value1,
                 "scale1":scale1,
                 "name":t
             }
@@ -1093,9 +1095,9 @@ def radar2_city(request):
             # data[4] = scale2
             data = {
                 "max":100,
-                "value1":scale1,
+                "value1":value1,
                 "scale1":scale1,
-                "value2":scale2,
+                "value2":value2,
                 "scale2":scale2,
                 "name":t
             }
@@ -1115,6 +1117,8 @@ def radar2_city(request):
             max1 = 100
             data = {
                 "max": max1,
+                "value":max_area,
+                "scale":100,
                 "name": t
             }
             dataList.append(data)
@@ -1196,7 +1200,7 @@ def radar3_city(request):
             # data[2] = scale1
             data = {
                 "max":max1,
-                "value1":scale1,
+                "value1":value1,
                 "scale1":scale1,
                 "name":t
             }
@@ -1275,9 +1279,9 @@ def radar3_city(request):
             max1 = 100
             data = {
                 "max": max1,
-                "value1": scale1,
+                "value1": value1,
                 "scale1": scale1,
-                "value2": scale2,
+                "value2": value2,
                 "scale2": scale2,
                 "name": t
             }
@@ -1303,6 +1307,8 @@ def radar3_city(request):
             max1 = 100
             data = {
                 "max":max1,
+                "value":max,
+                "sacle":100,
                 "name":t
             }
             dataList.append(data)
