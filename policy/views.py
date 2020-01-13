@@ -21,6 +21,38 @@ total_method_policy = MethodAndType.objects.all()
 L_zj = total_policy.filter(province="浙江省")
 L_zj2 = total_method_policy.filter(province="浙江省")
 
+import datetime
+from collections import OrderedDict
+
+class LruCatch():
+    lru_cache = {}
+    __sef__ = None
+
+    def __new__(cls, *args,**kwargs):
+        if not cls.__sef__:
+            self = super().__new__(cls, *args, **kwargs)
+            cls.__sef__ = self
+        return cls.__sef__
+
+    # 设置缓存
+    def catch_set(self,fnname:str,stt:str,rest):
+        if not self.lru_cache.get(fnname, None):
+            self.lru_cache[fnname] = OrderedDict()
+        length = len(self.lru_cache[fnname].keys())
+        if length >= 100:
+            key = None
+            for i in self.lru_cache[fnname]:
+                key = i
+                break
+            self.lru_cache[fnname].pop(key)
+        self.lru_cache[fnname][stt] = (datetime.datetime.now(), rest)
+
+    # 获取缓存
+    def catch_get(self,fnname:str,stt:str):
+        if not self.lru_cache.get(fnname,None):
+            self.lru_cache[fnname] = OrderedDict()
+        return self.lru_cache[fnname].get(stt,None)
+
 def op(request):
     data = 'hello world'
     return JsonResponse({'data': data})
@@ -468,7 +500,6 @@ def radar2(typeList, provinceList):
         ret = JsonResponse({"dataList":dataList})
         return ret
 
-
 #市级折线图
 #t, cityList, p
 def zxt_city(request):
@@ -476,6 +507,13 @@ def zxt_city(request):
     p = request.GET.get('province', '')
     cityList = request.GET.get('cityList', [])
     cityList = json.loads(cityList)
+
+    catch = LruCatch()
+    stt = "".join(cityList) + t + p
+    fnname = "zxt_city"
+    value = catch.catch_get(fnname,stt)
+    if value:
+        return  value[1]
 
     a = [0, 0.5, 1, 5, 10, 15, 20, 25, 30, 40, 50, 60, 90, 95, 100, 300, 500, 1000, 10000]
     A = ['0-0.5','0.5-1','1-5','5-10','10-15','15-20','20-25','25-30','30-40','40-50','50-60','60-90','90-95','95-100'
@@ -715,6 +753,8 @@ def zxt_city(request):
     print(b1)
     print("b2")
     print(b2)
+
+    catch.catch_set(fnname,stt,ret)
 
     return  ret
 

@@ -82,3 +82,45 @@ class PolicyAnalyze(View):
             return JsonResponse(data_info)
         else:
             return JsonResponse({"message":"type最多只包含2个参数"})
+
+
+# def test(request:HttpRequest):
+#     t1 = {"经费资助", "生活补贴", "引才补助", "担保贷款"}  # 经济补贴
+#     t2 = {"周转住房", "购房补贴", "租房补贴", "安家补贴", "人才公寓"}  # 住房保障
+#     t3 = {"户籍保障", "家属就业", "医疗保健", "社会保险", "综合服务", "子女教育"}  # 服务保障
+#     querylist = models.MethodAndType.objects.all()
+#     from django.db.models import Count
+#     # querylist = querylist.values("type","province").annotate(num=Count("id"))
+#     # data_info = {}
+#     # for i in querylist:
+#     #     province = i["province"]
+#     #     tp = i["type"]
+#     #     num = i["num"]
+#     #     if province not in data_info:
+#     #         data_info[province] = {"经济补贴":0,"住房保障":0,"服务保障":0,"其他":0}
+#     #     if tp in t1:
+#     #         data_info[province]["经济补贴"] += num
+#     #     elif tp in t2:
+#     #         data_info[province]["住房保障"] += num
+#     #     elif tp in t3:
+#     #         data_info[province]["服务保障"] += num
+#     #     else:
+#     #         data_info[province]["其他"] += num
+#     #     # data_info[province][i["type"]] = i["num"]
+#     # print(data_info)
+#
+#     querylist = querylist.values("type").annotate(num=Count("id"))
+#     data_info = {"经济补贴":0,"住房保障":0,"服务保障":0,"其他":0}
+#     for i in querylist:
+#         tp = i["type"]
+#         num = i["num"]
+#         if tp in t1:
+#             data_info["经济补贴"] += num
+#         elif tp in t2:
+#             data_info["住房保障"] += num
+#         elif tp in t3:
+#             data_info["服务保障"] += num
+#         else:
+#             data_info["其他"] += num
+#     print(data_info)
+#     return JsonResponse(data_info)
