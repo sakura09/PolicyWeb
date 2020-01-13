@@ -12,8 +12,12 @@ from django.core import serializers
 from django.db.models import Q
 import re
 from itertools import chain
+import logging
 
 import json
+
+FORMAT = "%(asctime)s %(threadName)s %(thread)d %(message)s"
+logging.basicConfig(format=FORMAT, level=logging.INFO)
 
 #提前把数据加载到内存，提高查询效率
 total_policy = strategy.objects.all()
@@ -53,7 +57,7 @@ class LruCatch():
             self.lru_cache[fnname] = OrderedDict()
         value = self.lru_cache[fnname].get(stt,None)
         if value:
-            print("缓存中获取数据---")
+            logging.info("缓存中获取数据---")
             return value
         return None
 
